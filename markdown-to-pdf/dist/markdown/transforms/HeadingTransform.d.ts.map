@@ -1,0 +1,1 @@
+{"version":3,"file":"HeadingTransform.d.ts","sourceRoot":"","sources":["../../../src/markdown/transforms/HeadingTransform.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AAEH,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,sBAAsB,CAAC;AAEtD,qBAAa,gBAAgB;IACzB,QAAQ,CAAC,IAAI,sBAAsB;IAEnC;;;;;OAKG;IACH,KAAK,CAAC,IAAI,EAAE,MAAM,EAAE,OAAO,EAAE,SAAS,GAAG,MAAM;CAYlD"}

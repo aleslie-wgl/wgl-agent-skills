@@ -2,9 +2,9 @@
 node_modules/
 */node_modules/
 
-# Build artifacts
-dist/
-*/dist/
+# Build artifacts (keep skill dist/ for distribution)
+# dist/         ← Commented out - we want to commit compiled skill code
+# */dist/       ← Commented out
 *.pyc
 __pycache__/
 
@@ -39,9 +39,3 @@ npm-debug.log*
 test-output/
 screenshots/
 page-*-actual.png
-
-# Skill-specific ignores from .skillignore files
-*/package.json
-*/package-lock.json
-*/tsconfig.json
-*/src/

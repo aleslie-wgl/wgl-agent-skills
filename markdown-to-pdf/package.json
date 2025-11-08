@@ -1,0 +1,35 @@
+{
+  "name": "markdown-to-pdf",
+  "version": "1.0.0",
+  "description": "TypeScript-based markdown-to-PDF converter with professional branding",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "setup": "npm install && npx playwright install chromium",
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "rebuild": "npm run clean && npm run build",
+    "start": "node dist/index.js",
+    "generate": "node tools/generate-proposal.js"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0",
+    "pdf-lib": "^1.17.1",
+    "pdf-parse": "^1.1.1",
+    "pdf2pic": "^3.2.0",
+    "playwright": "^1.48.0",
+    "sharp": "^0.33.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^24.10.0",
+    "canvas": "^3.2.0",
+    "pdf-poppler": "^0.2.3",
+    "pdfjs-dist": "^5.4.394",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

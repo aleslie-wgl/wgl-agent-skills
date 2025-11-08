@@ -1,0 +1,1 @@
+{"version":3,"file":"parser.js","sourceRoot":"","sources":["../../src/markdown/parser.ts"],"names":[],"mappings":"AAAA;;;GAGG;AAEH,OAAO,UAAU,MAAM,aAAa,CAAC;AAErC;;GAEG;AACH,MAAM,UAAU,oBAAoB;IAChC,OAAO,IAAI,UAAU,CAAC;QAClB,IAAI,EAAE,IAAI;QACV,OAAO,EAAE,IAAI;QACb,WAAW,EAAE,IAAI;QACjB,MAAM,EAAE,KAAK;KAChB,CAAC,CAAC;AACP,CAAC"}
