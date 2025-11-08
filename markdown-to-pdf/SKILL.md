@@ -69,7 +69,7 @@ node scripts/generate-pdf.js "path/to/input.md" \
 - Use absolute paths for reliability
 - Wrap paths with spaces in quotes
 
-**Example**:
+**Example** (using temp directory for validation):
 ```bash
 node scripts/generate-pdf.js \
   "G:/Shared drives/Proposals/proposal.md" \
@@ -80,6 +80,16 @@ node scripts/generate-pdf.js \
   --email "alexander.leslie@whiteglovelabs.ai" \
   --title-logo "G:/Shared drives/Branding/Logo Gold.png" \
   --header-logo "G:/Shared drives/Branding/icon-leaf.jpg"
+
+# Then validate (screenshots go to temp):
+python scripts/validation/extract_pdf_pages.py \
+  "G:/Shared drives/Proposals/proposal.pdf" \
+  "%TEMP%/pdf-validation" \
+  2 3 4
+
+# Clean up after viewing:
+del /Q "%TEMP%\pdf-validation\page-*.png"
+rmdir "%TEMP%\pdf-validation"
 ```
 
 ### Step 3: Verify Output
@@ -105,16 +115,17 @@ Check the summary:
 - User reports visual issues
 - Making layout changes
 
-**Extract sample pages**:
+**Extract sample pages to temp directory**:
 
 ```bash
+# Windows: Use %TEMP% environment variable
 python scripts/validation/extract_pdf_pages.py \
   "path/to/output.pdf" \
-  "path/to/screenshots" \
+  "%TEMP%/pdf-validation" \
   2 3 4 5
 ```
 
-This extracts pages 2, 3, 4, 5 as PNG images for visual inspection.
+This extracts pages 2, 3, 4, 5 as PNG images to a temporary directory for visual inspection.
 
 **What to check**:
 - ✅ Header appears on all pages with proper spacing
@@ -125,15 +136,18 @@ This extracts pages 2, 3, 4, 5 as PNG images for visual inspection.
 - ✅ Logos render correctly
 
 **View extracted images**:
+
+Use the Read tool to view the extracted PNG files from the temp directory and verify layout.
+
+**IMPORTANT: Clean up after validation**:
+
 ```bash
-ls "path/to/screenshots"
-# page-2-actual.png
-# page-3-actual.png
-# page-4-actual.png
-# page-5-actual.png
+# Windows: Delete temp screenshots after viewing
+del /Q "%TEMP%\pdf-validation\page-*.png"
+rmdir "%TEMP%\pdf-validation"
 ```
 
-Use the Read tool to view these images and verify layout.
+Always delete the temporary screenshots immediately after verification to avoid clutter.
 
 ### Step 5: Fix Issues (If Found)
 
@@ -154,7 +168,7 @@ Common fixes:
 Once visual validation passes:
 - Confirm PDF location with user
 - Report file size and page count
-- Delete temporary screenshot files (optional)
+- Ensure temp validation files were cleaned up in Step 4
 
 ## Quick Reference
 
@@ -302,10 +316,11 @@ For each PDF generation:
 - [ ] Gather client info, logos, branding
 - [ ] Run generate-pdf.js with proper paths
 - [ ] Check output summary (page count, file size, heading accuracy)
-- [ ] Run visual validation (extract pages 2-5)
+- [ ] Run visual validation (extract pages 2-5 to %TEMP%/pdf-validation)
 - [ ] View extracted screenshots using Read tool
 - [ ] Verify headers, footers, spacing, tables
-- [ ] Fix any issues found
+- [ ] Delete temp screenshots immediately after viewing
+- [ ] Fix any issues found (repeat validation if needed)
 - [ ] Deliver PDF to user with confirmation
 
 ## Example Session
