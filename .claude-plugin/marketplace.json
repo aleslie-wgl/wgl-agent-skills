@@ -1,0 +1,22 @@
+{
+  "name": "wgl-agent-skills",
+  "owner": {
+    "name": "Alexander Leslie",
+    "email": "alexander.leslie@whiteglovelabs.ai"
+  },
+  "metadata": {
+    "description": "WhiteGlove Labs professional skills for Claude Code - Enterprise-grade document processing and workflow automation",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "markdown-to-pdf",
+      "description": "Convert markdown documents to professional, branded PDFs with accurate page numbering, table of contents, headers/footers, and visual validation. Supports logos, brand colors, and client customization.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./markdown-to-pdf"
+      ]
+    }
+  ]
+}

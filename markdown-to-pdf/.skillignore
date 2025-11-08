@@ -1,0 +1,32 @@
+# Development dependencies
+node_modules/
+package.json
+package-lock.json
+tsconfig.json
+
+# Build artifacts
+*.map
+
+# Source code (dist/ has compiled JS)
+src/
+
+# Version control
+.git/
+.gitignore
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+test-*.html
+test-*.js
+screenshot-*.mjs
+
+# OS files
+.DS_Store
+Thumbs.db

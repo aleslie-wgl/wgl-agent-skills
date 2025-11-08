@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Build artifacts
+dist/
+*/dist/
+*.pyc
+__pycache__/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Package files
+*.zip
+*.tar.gz
+
+# Environment files
+.env
+.env.local
+
+# Test outputs
+test-output/
+screenshots/
+page-*-actual.png
+
+# Skill-specific ignores from .skillignore files
+*/package.json
+*/package-lock.json
+*/tsconfig.json
+*/src/
