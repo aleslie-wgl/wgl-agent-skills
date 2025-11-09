@@ -134,9 +134,9 @@ For each batch:
      - UI/config tasks → implementer (Haiku)
 
   2. **Load expert skills** (based on task context):
-     - Convex tasks → @convex-operations
-     - Next.js tasks → @typescript-standards
-     - Test tasks → @test-driven-development
+     - Convex tasks → convex-operations
+     - Next.js tasks → typescript-standards
+     - Test tasks → test-driven-development
 
   3. **Dispatch in parallel** (single message):
      Task 1: tdd-executor → T001 (with context)
@@ -338,5 +338,5 @@ Orchestrator MUST verify:
 ---
 
 **Related Skills**:
-- For what to provide to agents: @context-provision-patterns
-- For validation and error handling: @validation-patterns
+- For what to provide to agents: context-provision-patterns
+- For validation and error handling: validation-patterns

@@ -46,16 +46,22 @@ Task: ci-cd (haiku)
 
 ### Step 1: Initialize Implementation
 
-Read feature documents:
+**Read feature documents:**
 ```bash
 Read: docs/features/[FEAT-XXX]-spec.md
 Read: docs/features/[FEAT-XXX]-plan.md
 Read: docs/features/[FEAT-XXX]-tasks.md
 ```
 
-Create STATUS.md from template:
+**Load Skills**
+Skill("<agent-dispatch-patterns>")
+Skill("<context-provision-patterns>")
+Skill("<validation-patterns>")
+
+
+**Create STATUS.md from template:**
 ```bash
-Read: .claude/templates/feature-status.md
+Read: .claude/skills/implement/templates/feature-status.md
 Write: docs/features/[FEAT-XXX]-STATUS.md
   # Fill in header:
   Feature ID: [FEAT-XXX]

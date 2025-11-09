@@ -1,7 +1,7 @@
 ---
 name: Verification Before Completion
-type: workflow
-description: "[WORKFLOW] Run verification commands and confirm output before claiming success"
+type: knowledge
+description: "[KNOWLEDGE] Run verification commands and confirm output before claiming success"
 when_to_use: Before claiming complete, fixed, working, passing, clean, ready, or done. Before expressing satisfaction with work. Before committing or creating PRs. When tempted to declare success. After code changes. When delegating to agents.
 version: 1.0.0
 languages: all

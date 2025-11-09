@@ -1,9 +1,9 @@
 ---
 name: Remembering Conversations
-description: "[WORKFLOW] Search previous Claude Code conversations for facts, patterns, decisions, and context using semantic or text search"
+description: "[TOOL] Search previous Claude Code conversations for facts, patterns, decisions, and context using semantic or text search"
 when_to_use: When your human partner mentions "we discussed this before". When debugging similar issues. When looking for architectural decisions or code patterns from past work. Before reinventing solutions. When you need to find a specific git SHA or error message.
 version: 1.0.0
-type: workflow
+type: tool
 ---
 
 # Remembering Conversations
@@ -30,13 +30,13 @@ Search archived conversations using semantic similarity or exact text matching.
 
 ## In-Session Use
 
-**Always use subagents** (50-100x context savings). See skills/getting-started for workflow.
+**Always use subagents** (50-100x context savings). See agent-dispatch-patterns skill.
 
 **Manual/CLI use:** Direct search (below) for humans outside Claude Code sessions.
 
 ## Direct Search (Manual/CLI)
 
-**Tool:** `${SKILLS_ROOT}/skills/remembering-conversations/tool/search-conversations`
+**Tool:** `${SKILLS_ROOT}/skills/conversation-memory/tool/search-conversations`
 
 **Modes:**
 ```bash

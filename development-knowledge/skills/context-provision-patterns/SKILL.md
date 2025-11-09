@@ -48,7 +48,7 @@ Formula:
   output_price = input_price * 2
 
 **Expert Knowledge**:
-Load relevant skills: @convex-operations, @test-driven-development
+Load relevant skills: convex-operations, test-driven-development
 
 **TDD Workflow**:
 1. RED: Write failing test first
@@ -107,7 +107,7 @@ Component structure:
 Styling: Use shadcn/ui Card component + Tailwind
 
 **Expert Knowledge**:
-Load relevant skills: @typescript-standards
+Load relevant skills: typescript-standards
 
 **Expected Output**:
 - Component file: components/PricingCard.tsx
@@ -133,36 +133,36 @@ If task involves Convex:
   - Query/mutation/action implementation
   - Schema changes
   - Database operations
-  → Load: @convex-operations, @convex-platform
+  → Load: convex-operations, convex-platform
 
 If task involves TypeScript:
   - All production code
   - Type definitions
   - Strict mode compliance
-  → Load: @typescript-standards
+  → Load: typescript-standards
 
 If task involves Testing:
   - Unit tests
   - Integration tests
   - TDD cycle
-  → Load: @test-driven-development, @test-antipatterns
+  → Load: test-driven-development, test-antipatterns
 
 If task involves UI validation:
   - Frontend changes
   - Component testing
   - Browser validation
-  → Load: @frontend-validation
+  → Load: frontend-validation
 
 # Can load multiple expert skills for complex tasks
 Example: "Implement Convex mutation with full TDD cycle"
-  → Load: @convex-operations, @test-driven-development, @typescript-standards
+  → Load: convex-operations, test-driven-development, typescript-standards
 ```
 
 ### How to Include Expert Skills in Context
 
 ```markdown
 **Expert Knowledge**:
-Load these skills for context: @convex-operations, @test-driven-development
+Load these skills for context: convex-operations, test-driven-development
 
 [Agent harness automatically loads skills via @ symbol]
 [No need to paste entire skill content - just reference by name]
@@ -237,5 +237,5 @@ Load these skills for context: @convex-operations, @test-driven-development
 ---
 
 **Related Skills**:
-- For dispatch patterns: @agent-dispatch-patterns
-- For validation and error handling: @validation-patterns
+- For dispatch patterns: agent-dispatch-patterns
+- For validation and error handling: validation-patterns

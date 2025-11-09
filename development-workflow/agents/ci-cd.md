@@ -54,7 +54,7 @@ Handle session lifecycle: server startup, quality verification, commits, server 
 
 ### For Session Start
 
-**Follow @server-management skill** (see `.claude/skills/server-management/SKILL.md`)
+**Follow server-management skill** (see `.claude/skills/server-management/SKILL.md`)
 
 **Start servers using script**:
 ```bash
@@ -155,7 +155,7 @@ git log -1 --oneline
 
 #### Step 3: Shutdown Servers
 
-**Follow @server-management skill shutdown process**:
+**Follow server-management skill shutdown process**:
 
 ```bash
 # PowerShell (Windows default)

@@ -568,6 +568,6 @@ Feature FEAT-XXX implementation complete ✅
 ---
 
 **Related Skills**:
-- For dispatch patterns: @agent-dispatch-patterns
-- For context provision: @context-provision-patterns
-- For pre-completion checks: @pre-completion-verification
+- For dispatch patterns: agent-dispatch-patterns
+- For context provision: context-provision-patterns
+- For pre-completion checks: pre-completion-verification

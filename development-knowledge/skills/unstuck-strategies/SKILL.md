@@ -1,9 +1,9 @@
 ---
 name: When Stuck - Problem-Solving Dispatch
-description: "[KNOWLEDGE] Dispatch to the right problem-solving technique based on how you're stuck"
+description: "[META] Dispatch to the right problem-solving technique based on how you're stuck"
 when_to_use: Stuck on a problem. Conventional approaches not working. Need to pick the right problem-solving technique. Not sure which skill applies.
 version: 1.0.0
-type: knowledge
+type: meta
 ---
 
 # When Stuck - Problem-Solving Dispatch

@@ -40,7 +40,7 @@ You are researching for FEAT-XXX planning phase.
 
 ## Process
 
-**Follow @spec-research skill workflow** (see `.claude/skills/spec-research/SKILL.md`)
+**Follow spec-research skill workflow** (see `.claude/skills/spec-research/SKILL.md`)
 
 The skill contains the complete research process:
 1. Generate filename from query

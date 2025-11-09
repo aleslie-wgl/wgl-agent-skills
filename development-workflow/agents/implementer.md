@@ -40,7 +40,7 @@ SKIP_WEBSERVER=1 npx playwright test [test-file] --reporter=list
 - File creation from templates
 - E2E test files (after inspecting actual implementation)
 
-**Loaded Skills**: @spec-implement, @frontend-validation, @pre-completion-verification @typescript-standards
+**Loaded Skills**: @spec-implement, @frontend-validation, @pre-completion-verification, @typescript-standards
 
 ---
 
@@ -91,7 +91,7 @@ Styling: Use shadcn/ui Card component + Tailwind
 
 ## Process
 
-**Follow @spec-implement skill workflow** (see `.claude/skills/spec-implement/SKILL.md`)
+**Follow spec-implement skill workflow** (see `.claude/skills/spec-implement/SKILL.md`)
 
 The skill contains the complete step-by-step implementation process:
 1. Read source documents (spec, plan, tasks) - verify orchestrator context

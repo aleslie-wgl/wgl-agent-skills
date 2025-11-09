@@ -238,6 +238,6 @@ These scripts accumulate as **reusable assets** rather than one-off queries.
 ---
 
 **Related Skills**:
-- For Convex operations: @convex-operations
-- For server management: @server-management
-- For continuous improvement: @continuous-improvement
+- For Convex operations: convex-operations
+- For server management: server-management
+- For continuous improvement: continuous-improvement

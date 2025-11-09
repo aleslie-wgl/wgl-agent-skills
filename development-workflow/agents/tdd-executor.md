@@ -46,7 +46,7 @@ npx tsc --noEmit
 - Critical functionality (auth, payments, security)
 - Backend mutations, queries, actions
 
-**Loaded Skills**: @spec-tdd, @pre-completion-verification, @test-driven-development, @test-antipatterns @typescript-standards
+**Loaded Skills**: @spec-tdd, @pre-completion-verification, @test-driven-development, @test-antipatterns, @typescript-standards
 
 ---
 
@@ -102,7 +102,7 @@ Formula:
 
 ## Process
 
-**Follow @spec-tdd skill workflow** (see `.claude/skills/spec-tdd/SKILL.md`)
+**Follow spec-tdd skill workflow** (see `.claude/skills/spec-tdd/SKILL.md`)
 
 The skill contains the complete TDD cycle:
 0. Read source documents (spec, plan, tasks) - verify orchestrator context

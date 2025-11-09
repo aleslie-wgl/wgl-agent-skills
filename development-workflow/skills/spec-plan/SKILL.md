@@ -2,7 +2,7 @@
 name: spec-plan
 description: "[WORKFLOW] Create implementation plan with architecture, data models, testing strategy, and parallel research dispatch"
 when_to_use: When creating a technical plan to address a specification
-version: 1.0.0
+version: 2.0.0
 type: workflow
 ---
 
@@ -210,33 +210,17 @@ export const bulkUpdateMargin = mutation({
 
 ---
 
-### Step 6: Testing Strategy
-
-**Unit tests:**
-- Business logic (pricing calculations, validation)
-- Edge cases (negative prices, zero margin)
-- Coverage target: 80%+
-
-**Integration tests:**
-- Convex mutations update database correctly
-- Queries return expected data
-- Error handling (invalid inputs)
-
-**E2E tests:**
-- Critical user workflows (update pricing, bulk update)
-- Error states (network failure, validation)
-- Responsive design
-
----
-
-### Step 7: Technical Decisions
+### Step 6: Technical Decisions
 
 **First decision is always File Organization** - Read CLAUDE.md "Repository Structure" and populate Plan §TD1 template with feature-specific paths.
 
 Document other key decisions with rationale:
 
 ```markdown
-### Decision 1: Single Mutation vs Batch for Bulk Updates
+### Decision 1: File Organization (§TD1)
+[See template - always first technical decision]
+
+### Decision 2: Single Mutation vs Batch for Bulk Updates
 
 **Context**: Need to update 500+ models efficiently
 
@@ -258,19 +242,176 @@ Document other key decisions with rationale:
 
 ---
 
-### Step 8: Write Plan File
+### Step 7: Testing Strategy
+
+**Unit tests:**
+- Business logic (pricing calculations, validation)
+- Edge cases (negative prices, zero margin)
+- Coverage target: 80%+
+
+**Integration tests:**
+- Convex mutations update database correctly
+- Queries return expected data
+- Error handling (invalid inputs)
+
+**E2E tests:**
+- Critical user workflows (update pricing, bulk update)
+- Error states (network failure, validation)
+- Responsive design
+
+---
+
+### Step 8: Performance Planning
+
+**Identify potential bottlenecks from architecture:**
+
+```markdown
+**Bottleneck 1**: Full table scan on 500+ models for vendor filtering
+- **Solution**: Add index on vendor_name field
+- **Impact**: 10-100× faster queries
+
+**Bottleneck 2**: Bulk update of 500+ records in single mutation
+- **Solution**: Batch updates in chunks of 100, use Promise.all
+- **Impact**: Prevents timeout, maintains atomicity per batch
+
+**Bottleneck 3**: Real-time pricing calculations on page load
+- **Solution**: Pre-calculate and cache in pricing_configs table
+- **Impact**: <200ms page load vs 5s+ calculation time
+```
+
+**Set performance targets:**
+- Query response time: p95 <200ms
+- Mutation response time: p95 <500ms
+- Page load: p95 <1s
+- Bulk update (500 models): <10s
+
+---
+
+### Step 9: Security Planning
+
+**Input validation:**
+```markdown
+- All mutations use Zod schemas (v.number(), v.string(), etc.)
+- Backend re-validates (never trust client input)
+- Reject negative prices, zero margins at mutation level
+```
+
+**Authentication/Authorization:**
+```markdown
+- Admin-only endpoints: Check ctx.auth.getUserIdentity()
+- Verify admin role before allowing pricing updates
+- Public queries filter sensitive fields (margin, base_cost)
+```
+
+**Data protection:**
+```markdown
+- Never expose pricing calculations in public queries
+- Use environment variables for API keys (HuggingFace)
+- Sanitize error messages (no stack traces to client)
+```
+
+---
+
+### Step 10: Rollout Planning (Optional/Light)
+
+**Deployment approach:**
+```markdown
+1. Deploy schema changes first (backwards compatible)
+2. Deploy backend functions (test in dev)
+3. Deploy frontend (feature flag if needed)
+4. Gradual rollout (monitor for errors)
+```
+
+**Rollback plan:**
+```markdown
+- Feature flag: Disable frontend feature
+- Database: Schema changes designed for rollback safety
+- Monitor: Watch error rates, performance metrics
+```
+
+---
+
+### Step 11: Dependency Analysis
+**DO NOT PLAN DETAILED TASKS YET**
+
+**Required before implementation:**
+```markdown
+- Authentication system (FEAT-001) must be complete
+- Admin role permissions configured in Convex
+- Convex environment variables set (HUGGINGFACE_API_KEY if needed)
+```
+
+**Affects task ordering:**
+```markdown
+- Schema changes must complete before backend mutations
+- Backend mutations must complete before frontend integration
+- Testing can run in parallel with frontend development
+```
+
+---
+
+### Step 12: Risk Assessment
+
+**Identify risks with mitigation:**
+
+```markdown
+| Risk | Impact | Probability | Mitigation |
+|------|--------|-------------|------------|
+| API rate limits hit | Medium | Medium | Implement caching, batching, retry logic |
+| Data migration fails | High | Low | Test on staging data first, backup before migration |
+| Performance degrades | Medium | Medium | Add indexes, monitor query times, optimize on metrics |
+| Bulk update timeout | Medium | Medium | Chunk updates (100 per batch), add progress indicator |
+```
+
+---
+
+### Step 13: Success Criteria
+
+**Derive from spec acceptance criteria + technical metrics:**
+
+```markdown
+**Functional** (from spec):
+- [ ] All user stories have passing acceptance tests (from spec AC1-ACN)
+- [ ] Admin can update individual model pricing
+- [ ] Admin can bulk update margins for filtered models
+- [ ] Pricing history tracks all changes with timestamps
+
+**Technical** (from plan):
+- [ ] Unit test coverage >80% for business logic
+- [ ] Integration tests cover all API endpoints (queries, mutations)
+- [ ] E2E tests cover critical user paths (update pricing, bulk update)
+- [ ] Performance targets met (p95 <200ms queries, <500ms mutations)
+- [ ] Security review complete (no sensitive data exposed in public queries)
+- [ ] All TypeScript compiles with 0 errors
+- [ ] Pre-commit hooks pass (ESLint, tests)
+
+**Quality** (general):
+- [ ] Code review approved by team
+- [ ] Documentation updated (API contracts, user guide)
+- [ ] Deployed to production without rollback
+```
+
+---
+
+### Step 14: Write Plan File
 
 ```bash
 # Read template
 Read: templates/feature-plan.md
 
-# Fill sections:
-# - Research summary (from Step 2)
-# - Architecture (from Step 3)
-# - Schema changes (from Step 4)
-# - API contracts (from Step 5)
-# - Testing strategy (from Step 6)
-# - Technical decisions (from Step 7)
+# Fill sections (in template order):
+# 1. Research Summary (from Step 2)
+# 2. Architecture Overview (from Step 3)
+# 3. Database Schema Changes (from Step 4)
+# 4. API Contracts (from Step 5)
+# 5. Technical Decisions (from Step 6) - TD1 first
+# 6. Testing Strategy (from Step 7)
+# 7. Performance Considerations (from Step 8)
+# 8. Security Considerations (from Step 9)
+# 9. Rollout Strategy (from Step 10)
+# 10. Dependencies (from Step 11)
+# 11. Risks & Mitigation (from Step 12)
+# 12. Success Criteria (from Step 13)
 
 # Write file
 Write: docs/features/[FEAT-XXX]-plan.md
@@ -278,7 +419,7 @@ Write: docs/features/[FEAT-XXX]-plan.md
 
 ---
 
-### Step 9: Present to User
+### Step 15: Present to User
 
 ```markdown
 I've created implementation plan for **FEAT-XXX**:
@@ -293,10 +434,33 @@ I've created implementation plan for **FEAT-XXX**:
 - 3 queries, 2 mutations
 - Frontend: /admin/pricing dashboard
 
+**Key Technical Decisions**:
+- TD1: File organization (lib/pricing/core.ts for logic)
+- TD2: Single mutation for bulk updates (100× faster than loop)
+
+**Performance Targets**:
+- Query p95: <200ms
+- Bulk update (500 models): <10s
+
+**Security**:
+- Admin-only endpoints with auth checks
+- Zod validation on all mutations
+- Public queries filter sensitive pricing data
+
 **Testing Strategy**:
 - Unit tests: Business logic, edge cases (80%+ coverage)
 - Integration tests: Database operations, error handling
 - E2E tests: Critical user workflows, responsive design
+
+**Dependencies**:
+- Requires: Authentication system (FEAT-001) complete
+- Affects: Task ordering (schema → backend → frontend)
+
+**Success Criteria**:
+- All spec acceptance criteria met
+- Performance targets achieved
+- Security review passed
+- 0 TypeScript errors
 
 **File created**: docs/features/FEAT-XXX-plan.md
 
@@ -304,7 +468,7 @@ Does this make sense? Any changes needed?
 ```
 
 **User options:**
-1. Approve → Proceed to Step 3 (task generation)
+1. Approve → Proceed to Step 3 (task generation via spec-tasks)
 2. Request changes → Iterate on plan
 3. Cancel → Stop workflow
 
@@ -315,8 +479,24 @@ Does this make sense? Any changes needed?
 - ✅ All RQs researched (or existing research referenced)
 - ✅ Schema changes complete (all fields, indexes)
 - ✅ API contracts have TypeScript definitions
-- ✅ Technical decisions have clear rationale
+- ✅ Technical decisions have clear rationale (TD1: File Org is first)
 - ✅ Testing strategy covers unit, integration, E2E
+- ✅ Performance bottlenecks identified with solutions
+- ✅ Security considerations documented
+- ✅ Dependencies identified for task ordering
+- ✅ Success criteria bridge spec ACs to technical metrics
+
+---
+
+## Integration with spec-tasks
+
+**Plan sections that inform task generation**:
+- **§TD1 (File Organization)**: Tasks reference "(per Plan §TD1)" for file paths
+- **API Contracts**: Tasks implement exact TypeScript signatures from plan
+- **Testing Strategy**: Tasks classified as TDD (tdd-executor) vs Direct (implementer)
+- **Performance Considerations**: Tasks add optimization (indexes, caching, batching)
+- **Security Considerations**: Tasks add validation, auth checks, sanitization
+- **Dependencies**: Tasks ordered to respect prerequisite completion
 
 ---
 

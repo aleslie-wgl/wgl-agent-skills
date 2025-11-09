@@ -150,7 +150,7 @@ export const actionName = action({
 - **API routes**: `app/api/[route]/route.ts`
 - **Components**: `components/marketing/` or `components/admin/` based on usage
 - **Business logic**: `lib/[feature-name]/core.ts` (library-first pattern)
-- **Convex functions**: `convex/mutations/[name].ts`, `convex/queries/[name].ts`, `convex/actions/[name].ts`
+- **Convex (Database) functions**: `convex/mutations/[name].ts`, `convex/queries/[name].ts`, `convex/actions/[name].ts`
 
 **Rationale**: Follows CLAUDE.md repository structure (see "Repository Structure" section)
 
@@ -317,7 +317,7 @@ test("admin can update pricing and see changes", async () => {
 ## Next Steps
 
 After approval of this plan:
-1. Generate detailed tasks: Run `/kb.tasks` or generate `[FEAT-XXX]-tasks.md`
+1. Generate detailed tasks: Run `/spec-tasks` or generate `[FEAT-XXX]-tasks.md`
 2. Review task breakdown
 3. Begin implementation: Run `/execute-feature [FEAT-XXX]`
 

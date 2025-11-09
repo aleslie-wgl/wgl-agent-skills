@@ -38,7 +38,7 @@ Debug complex technical issues that require deep investigation across multiple l
 
 ## Process
 
-### Follow @systematic-debugging skill workflow
+### Follow systematic-debugging skill workflow
 
 The skill contains the complete four-phase debugging process:
 
@@ -49,11 +49,11 @@ The skill contains the complete four-phase debugging process:
 
 ### Integration with Other Skills
 
-- **@root-cause-tracing**: When bug appears deep in call stack
-- **@frontend-debugging**: When issue involves UI rendering, styles, or browser behavior
-- **@pattern-recognition**: When issue seems familiar or recurring
-- **@pre-completion-verification**: Before claiming "fixed"
-- **@Defense-in-Depth-Validation**: Add layers of defence to make bugs impossible
+- **root-cause-tracing**: When bug appears deep in call stack
+- **frontend-debugging**: When issue involves UI rendering, styles, or browser behavior
+- **pattern-recognition**: When issue seems familiar or recurring
+- **pre-completion-verification**: Before claiming "fixed"
+- **Defense-in-Depth-Validation**: Add layers of defence to make bugs impossible
 
 ---
 

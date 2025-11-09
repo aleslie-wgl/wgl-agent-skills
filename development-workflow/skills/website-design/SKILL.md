@@ -1,7 +1,7 @@
 ---
 name: website-design
-type: workflow
-description: "[WORKFLOW] Research-backed best practices for creating professional dark-mode visual designs for websites"
+type: knowledge
+description: "[KNOWLEDGE] Research-backed best practices for creating professional dark-mode visual designs for websites"
 version: 1.0
 ---
 
