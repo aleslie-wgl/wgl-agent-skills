@@ -1,0 +1,15 @@
+# Stop development servers
+# Customize port numbers to match your stack
+
+$FRONTEND_PORT = "{{FRONTEND_PORT}}"
+$BACKEND_PORT = "{{BACKEND_PORT}}"
+
+Get-NetTCPConnection -LocalPort $FRONTEND_PORT -ErrorAction SilentlyContinue |
+  Select-Object -ExpandProperty OwningProcess |
+  ForEach-Object { Stop-Process -Id $_ -Force }
+
+Get-NetTCPConnection -LocalPort $BACKEND_PORT -ErrorAction SilentlyContinue |
+  Select-Object -ExpandProperty OwningProcess |
+  ForEach-Object { Stop-Process -Id $_ -Force }
+
+Write-Host "Servers stopped successfully"

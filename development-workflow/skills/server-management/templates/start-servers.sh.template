@@ -1,0 +1,18 @@
+#!/bin/bash
+# Start development servers
+# Customize for your stack by replacing placeholders
+
+FRONTEND_PORT={{FRONTEND_PORT}}
+BACKEND_PORT={{BACKEND_PORT}}
+
+echo "Starting frontend on port $FRONTEND_PORT..."
+{{FRONTEND_COMMAND}} > logs/frontend.log 2>&1 &
+echo $! > .frontend.pid
+
+echo "Starting backend on port $BACKEND_PORT..."
+{{BACKEND_COMMAND}} > logs/backend.log 2>&1 &
+echo $! > .backend.pid
+
+echo "Servers started. PIDs:"
+echo "  Frontend: $(cat .frontend.pid)"
+echo "  Backend: $(cat .backend.pid)"

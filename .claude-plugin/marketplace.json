@@ -5,18 +5,46 @@
     "email": "alexander.leslie@whiteglovelabs.ai"
   },
   "metadata": {
-    "description": "WhiteGlove Labs professional skills for Claude Code - Enterprise-grade document processing and workflow automation",
-    "version": "1.0.0"
+    "description": "WhiteGlove Labs professional skills for Claude Code - Development workflows, knowledge base, thinking frameworks, and tools",
+    "version": "1.0.0",
+    "homepage": "https://github.com/aleslie-wgl/wgl-agent-skills",
+    "repository": "https://github.com/aleslie-wgl/wgl-agent-skills"
   },
   "plugins": [
     {
+      "name": "development-workflow",
+      "description": "[WORKFLOW] Complete development workflow with spec-driven development, TDD, testing, deployment, and all specialized agents",
+      "source": "./development-workflow",
+      "version": "1.0.0",
+      "strict": false
+    },
+    {
+      "name": "development-knowledge",
+      "description": "[KNOWLEDGE] Reference documentation for Claude SDK, Convex, TypeScript, testing patterns, and performance optimization",
+      "source": "./development-knowledge",
+      "version": "1.0.0",
+      "strict": false
+    },
+    {
+      "name": "thinking-frameworks",
+      "description": "[META] Meta-thinking skills for advanced problem-solving and architectural decisions",
+      "source": "./thinking-frameworks",
+      "version": "1.0.0",
+      "strict": false
+    },
+    {
       "name": "markdown-to-pdf",
-      "description": "Convert markdown documents to professional, branded PDFs with accurate page numbering, table of contents, headers/footers, and visual validation. Supports logos, brand colors, and client customization.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./markdown-to-pdf"
-      ]
+      "description": "[TOOL] Professional PDF generation from markdown with branding and validation",
+      "source": "./markdown-to-pdf",
+      "version": "1.0.0",
+      "strict": false
+    },
+    {
+      "name": "mcp-recommended-servers",
+      "description": "[CONFIG] Optional MCP server configurations (context7, perplexity, playwright, etc.)",
+      "source": "./mcp-recommended-servers",
+      "version": "1.0.0",
+      "strict": false
     }
   ]
 }

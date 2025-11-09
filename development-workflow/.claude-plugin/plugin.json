@@ -1,0 +1,19 @@
+{
+  "name": "development-workflow",
+  "version": "1.0.0",
+  "description": "[WORKFLOW] Complete development workflow for spec-driven development, TDD, git operations, testing, and deployment. Includes all specialized agents and orchestration commands.",
+  "author": {
+    "name": "WhiteGlove Labs AI",
+    "email": "alexander.leslie@whiteglovelabs.ai"
+  },
+  "license": "Proprietary",
+  "components": {
+    "skills": "./skills",
+    "agents": "./agents",
+    "commands": "./commands"
+  },
+  "dependencies": {
+    "node": ">=18.0.0"
+  },
+  "tags": ["workflow", "tdd", "spec-driven", "development", "testing"]
+}

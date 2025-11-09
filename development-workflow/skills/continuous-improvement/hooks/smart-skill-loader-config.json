@@ -1,0 +1,106 @@
+{
+  "description": "Smart Skill Loader - Two approaches for dynamic skill injection",
+  "approaches": {
+    "command-based": {
+      "pros": [
+        "Fast execution (<50ms)",
+        "No API costs",
+        "Deterministic pattern matching",
+        "Easy to debug"
+      ],
+      "cons": [
+        "Limited to regex patterns",
+        "Can't understand context/intent",
+        "Requires explicit patterns"
+      ],
+      "use_when": "Patterns are clear and keyword-based"
+    },
+    "prompt-based": {
+      "pros": [
+        "Understands natural language intent",
+        "Context-aware decisions",
+        "Handles ambiguous requests",
+        "Can analyze conversation history"
+      ],
+      "cons": [
+        "Slower (LLM inference ~200-500ms)",
+        "API costs (minimal with Haiku)",
+        "Non-deterministic"
+      ],
+      "use_when": "Need to understand user intent or conversation context"
+    }
+  },
+  "configurations": {
+    "option_1_command_based": {
+      "description": "Fast regex-based pattern matching",
+      "settings": {
+        "hooks": {
+          "UserPromptSubmit": [
+            {
+              "matcher": ".*",
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/skills/continuous-improvement/hooks/smart-skill-loader.sh"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "option_2_prompt_based": {
+      "description": "LLM-powered intent detection using Haiku",
+      "settings": {
+        "hooks": {
+          "UserPromptSubmit": [
+            {
+              "matcher": ".*",
+              "hooks": [
+                {
+                  "type": "prompt",
+                  "prompt": "Analyze the user's message and determine if they need skill guidance.\n\nUser message: $user_message\n\nCheck for these patterns:\n\n1. **Convex Issues**: Mentions Convex errors, API paths, function references, mutation/query problems\n   → Inject: \"💡 Load @convex-operations skill for API path patterns and error fixes\"\n\n2. **Validation Needs**: Asks to validate, check phase, verify completion, test phase\n   → Inject: \"💡 Use validation script pattern from @spec-validate skill (saves 20K tokens vs MCP queries)\"\n\n3. **Context Management**: Mentions context, memory, tokens, compaction, running out of space\n   → Inject: \"💡 Review Context Management guidelines in CLAUDE.md. Use scripts when >70% context used\"\n\n4. **Large Data Queries**: Plans to query all records, list all items, get full database dumps\n   → Inject: \"⚠️ Direct mcp__convex__data queries can waste 25K+ tokens. Create filtering script instead\"\n\n5. **Debugging**: Troubleshooting, investigating errors, things not working\n   → Inject: \"💡 Use @systematic-debugging skill for structured root cause analysis\"\n\n6. **Frontend Work**: UI components, page issues, browser testing, Playwright\n   → Inject: \"💡 Use @frontend-validation skill. Always validate in browser before claiming completion\"\n\n7. **Testing**: TDD, unit tests, test writing\n   → Inject: \"💡 Use @test-driven-development skill. Test FIRST (RED → GREEN → REFACTOR)\"\n\n8. **Research**: Looking up APIs, documentation, learning about technologies\n   → Inject: \"💡 Use @spec-research skill for parallelizable research with Context7/Perplexity\"\n\n9. **Completion Claims**: Says done/complete/works/fixed/ready\n   → Inject: \"⚠️ Use @pre-completion-verification skill. NEVER claim works without ACTUAL VERIFICATION\"\n\n10. **Planning**: Requests feature plans, specs, design, architecture\n    → Inject: \"💡 Use spec-driven workflow: /spec → review → /implement\"\n\nIf pattern detected, return:\n```json\n{\n  \"decision\": \"approve\",\n  \"systemMessage\": \"[injection message from above]\"\n}\n```\n\nIf no pattern or message is general conversation, return:\n```json\n{\n  \"decision\": \"approve\"\n}\n```\n\nBe concise - only inject when highly relevant.",
+                  "timeout": 30
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "option_3_hybrid": {
+      "description": "Combine both - command hook for fast patterns, prompt for complex analysis",
+      "settings": {
+        "hooks": {
+          "UserPromptSubmit": [
+            {
+              "matcher": ".*",
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/skills/continuous-improvement/hooks/smart-skill-loader.sh",
+                  "description": "Fast regex checks for obvious patterns"
+                },
+                {
+                  "type": "prompt",
+                  "prompt": "The command hook already checked for obvious keyword patterns. Now analyze for SUBTLE patterns that require understanding intent:\n\nUser message: $user_message\n\nCheck for:\n- Implicit validation needs (e.g., 'how do I know if phase is done?')\n- Hidden context concerns (e.g., 'this is taking a while', 'conversation getting long')\n- Confusion indicators (e.g., 'not sure why this failed', 'confused about...')\n- Architecture questions that need specific skills\n\nOnly inject if you detect a non-obvious pattern that command hook missed. Otherwise approve without message.",
+                  "timeout": 20,
+                  "description": "Deep analysis for subtle patterns"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "recommendation": {
+    "start_with": "option_1_command_based",
+    "reason": "Fast, deterministic, covers 90% of cases. Upgrade to option_2 or option_3 if you need intent understanding.",
+    "cost_analysis": {
+      "command_based": "~0ms latency, $0.00 cost per invocation",
+      "prompt_based": "~200-500ms latency, ~$0.0001 per invocation (Haiku)",
+      "hybrid": "~200-500ms latency (sequential), ~$0.0001 per invocation"
+    }
+  }
+}

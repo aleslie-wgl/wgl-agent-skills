@@ -1,0 +1,13 @@
+# Start development servers
+# Customize for your stack by replacing placeholders
+
+$FRONTEND_PORT = "{{FRONTEND_PORT}}"
+$BACKEND_PORT = "{{BACKEND_PORT}}"
+
+Write-Host "Starting frontend on port $FRONTEND_PORT..."
+Start-Process -NoNewWindow -FilePath "cmd" -ArgumentList "/c {{FRONTEND_COMMAND}}"
+
+Write-Host "Starting backend on port $BACKEND_PORT..."
+Start-Process -NoNewWindow -FilePath "cmd" -ArgumentList "/c {{BACKEND_COMMAND}}"
+
+Write-Host "Servers started successfully"

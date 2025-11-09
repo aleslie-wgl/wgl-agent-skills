@@ -1,0 +1,14 @@
+{
+  "name": "mcp-recommended-servers",
+  "version": "1.0.0",
+  "description": "[CONFIG] Optional MCP server configurations for context7, perplexity, playwright, and other development tools.",
+  "author": {
+    "name": "WhiteGlove Labs AI",
+    "email": "alexander.leslie@whiteglovelabs.ai"
+  },
+  "license": "Proprietary",
+  "components": {
+    "mcp": "./.mcp.json"
+  },
+  "tags": ["mcp", "config", "tools"]
+}

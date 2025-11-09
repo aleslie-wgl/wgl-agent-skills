@@ -1,0 +1,14 @@
+{
+  "name": "thinking-frameworks",
+  "version": "1.0.0",
+  "description": "[META] Meta-thinking skills for advanced problem-solving: collision zones, inversion thinking, pattern recognition, root cause analysis, scale thinking, and simplification.",
+  "author": {
+    "name": "WhiteGlove Labs AI",
+    "email": "alexander.leslie@whiteglovelabs.ai"
+  },
+  "license": "Proprietary",
+  "components": {
+    "skills": "./skills"
+  },
+  "tags": ["meta", "thinking", "problem-solving", "architecture"]
+}

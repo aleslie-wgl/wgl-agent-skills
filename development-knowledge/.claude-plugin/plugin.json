@@ -1,0 +1,14 @@
+{
+  "name": "development-knowledge",
+  "version": "1.0.0",
+  "description": "[KNOWLEDGE] Reference documentation and best practices for Claude SDK, Convex, TypeScript, testing patterns, and performance optimization.",
+  "author": {
+    "name": "WhiteGlove Labs AI",
+    "email": "alexander.leslie@whiteglovelabs.ai"
+  },
+  "license": "Proprietary",
+  "components": {
+    "skills": "./skills"
+  },
+  "tags": ["knowledge", "reference", "patterns", "best-practices"]
+}
