@@ -6,9 +6,5 @@
     "name": "WhiteGlove Labs AI",
     "email": "alexander.leslie@whiteglovelabs.ai"
   },
-  "license": "Proprietary",
-  "components": {
-    "skills": "./skills"
-  },
-  "tags": ["meta", "thinking", "problem-solving", "architecture"]
+  "license": "Proprietary"
 }

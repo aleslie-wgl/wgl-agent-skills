@@ -6,9 +6,5 @@
     "name": "WhiteGlove Labs AI",
     "email": "alexander.leslie@whiteglovelabs.ai"
   },
-  "license": "Proprietary",
-  "components": {
-    "mcp": "./.mcp.json"
-  },
-  "tags": ["mcp", "config", "tools"]
+  "license": "Proprietary"
 }

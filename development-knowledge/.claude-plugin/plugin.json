@@ -6,9 +6,5 @@
     "name": "WhiteGlove Labs AI",
     "email": "alexander.leslie@whiteglovelabs.ai"
   },
-  "license": "Proprietary",
-  "components": {
-    "skills": "./skills"
-  },
-  "tags": ["knowledge", "reference", "patterns", "best-practices"]
+  "license": "Proprietary"
 }
