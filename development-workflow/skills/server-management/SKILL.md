@@ -14,25 +14,35 @@ type: workflow
 
 ## Prerequisites
 
-Before using this skill, ensure server management scripts are configured:
+**FIRST-TIME SETUP**: If this is your first time using the server-management skill in a new repository, initialize the server scripts:
 
-1. Check if scripts exist:
-   ```bash
-   ls scripts/start-servers.sh scripts/stop-servers.sh
-   ```
+```bash
+# Initialize server management scripts (auto-detects your stack)
+Bash: npx tsx .claude/skills/server-management/tools/init-server-scripts.ts
 
-2. If not found, copy templates to project:
-   ```bash
-   cp .claude/skills/server-management/templates/*.template scripts/
-   cd scripts
-   mv start-servers.sh.template start-servers.sh
-   mv start-servers.ps1.template start-servers.ps1
-   mv stop-servers.sh.template stop-servers.sh
-   mv stop-servers.ps1.template stop-servers.ps1
-   chmod +x *.sh
-   ```
+# What it detects:
+# - Next.js vs Vite vs custom dev server
+# - Convex deployment
+# - Monorepo structure (Turborepo, workspaces)
+# - Port configuration
+# - Custom npm scripts
 
-3. Customize scripts for your stack by replacing placeholders (see tools/README.md)
+# Generates:
+# - scripts/start-servers.sh (customized for your stack)
+# - scripts/stop-servers.sh (with proper cleanup)
+```
+
+**After initialization**, you'll have two executable scripts:
+- `scripts/start-servers.sh` - Starts all dev servers, tracks PIDs
+- `scripts/stop-servers.sh` - Stops all servers, cleans up PIDs
+
+**Skip this if** `scripts/start-servers.sh` already exists in the repository.
+
+**To regenerate** (e.g., after adding Convex to project):
+```bash
+# Re-run init to update scripts
+Bash: npx tsx .claude/skills/server-management/tools/init-server-scripts.ts --port=8765
+```
 
 ---
 

@@ -88,18 +88,26 @@ Ready for implementation.
 
 #### Step 1: Quality Verification
 
-Run pre-completion checks:
+Run comprehensive code quality validation:
 ```bash
-# TypeScript diagnostics
-mcp__ide__getDiagnostics
-# Must show: 0 errors in changed files
+# Run all quality checks using centralized script
+Bash: npx tsx scripts/validate-code-quality.ts
 
-# Run tests
-npm test
-# Count passes/failures
+# This runs:
+# - TypeScript type checking (tsc --noEmit)
+# - ESLint code quality
+# - npm security audit
+# - Unit tests (npm test)
+# - Production build verification
+# - Code formatting check
 ```
 
-**If quality checks fail**: Report to orchestrator, DO NOT commit.
+**Expected**: Exit code 0 (all checks pass)
+
+**If quality checks fail**:
+- Read the validation output to identify which check failed
+- Report failures to orchestrator
+- DO NOT commit until all checks pass
 
 #### Step 2: Commit Changes
 

@@ -9,4 +9,6 @@ description: Continue next logical task from the handoff document and/or plan ab
   4. Update ALL documentation
   5. Resume testing from where you stopped
 
+  Testing focus: Validate KB system tools and workflows keep Claude on track - the app itself is throwaway.
+
   Do NOT assume things exist. Test commands with actual bash calls. Cross-reference documentation synchronization." 

@@ -19,6 +19,24 @@ This skill defines the complete validation workflow for verifying that a phase m
 
 ---
 
+## Prerequisites
+
+**FIRST-TIME SETUP**: If this is your first time using the spec-validate skill in a new repository, initialize the validation tools:
+
+```bash
+# Initialize code quality validation script
+Bash: bash .claude/skills/spec-validate/tools/init.sh
+
+# This copies and configures:
+# - scripts/validate-code-quality.ts (auto-detects TypeScript, ESLint, tests, etc.)
+```
+
+**After initialization**, the validation script will be available at `scripts/validate-code-quality.ts` and will auto-detect your project's tools (TypeScript, ESLint, Prettier, test commands, package manager).
+
+**Skip this if** `scripts/validate-code-quality.ts` already exists in the repository.
+
+---
+
 ## Process: Phase Validation
 
 ### Step 1: Read Source Documents
@@ -53,65 +71,82 @@ Glob: docs/features/FEAT-XXX-*.md
 
 ---
 
-### Step 2: Verify Infrastructure Prerequisites
+### Step 2: Run Comprehensive Code Quality Validation
 
-Before running tests, check that build infrastructure is working:
+**Use the centralized validation script instead of manual commands:**
 
 ```bash
-# Check TypeScript compiles
-Bash: npx tsc --noEmit
-# Expected: 0 errors
+# Run all quality checks in one command
+Bash: npx tsx scripts/validate-code-quality.ts
 
-# Check test files exist
-Glob: **/*.test.ts
-Glob: **/__tests__/*.test.ts
+# What this script runs:
+# 1. TypeScript type checking (tsc --noEmit)
+# 2. ESLint code quality (eslint)
+# 3. Security audit (npm audit)
+# 4. Unit tests (npm test)
+# 5. Production build (npm run build)
+# 6. Code formatting (prettier --check)
 ```
 
-**If infrastructure broken** (TypeScript errors, missing files):
-- Fix simple issues (import errors, typos)
+**Script Output Format**:
+```
+🧪 CODE QUALITY VALIDATION
+============================================================
+🔍 TypeScript Type Checking...
+✅ TypeScript Type Checking: PASSED (1234ms)
+
+🔍 ESLint Code Quality...
+✅ ESLint Code Quality: PASSED (567ms)
+
+🔍 npm Security Audit...
+✅ npm Security Audit: PASSED (890ms)
+
+🔍 Unit Tests...
+✅ Unit Tests: PASSED (2345ms)
+
+🔍 Production Build...
+✅ Production Build: PASSED (5678ms)
+
+🔍 Code Formatting...
+⚠️  Code Formatting: WARNINGS FOUND (123ms)
+
+============================================================
+📊 VALIDATION SUMMARY
+============================================================
+✅ Passed: 5/6
+❌ Failed: 0/6
+⚠️  Warnings: 1/6
+
+✅ ALL CHECKS PASSED
+```
+
+**Expected**: Exit code 0 (all checks pass, warnings acceptable)
+
+**If validation fails** (exit code 1):
+- Read the output to identify which check failed
+- Fix simple issues (imports, typos)
 - Report complex issues to orchestrator
-- Mark as FAIL with details
+- Mark validation as FAIL with details
+
+**Skip options** (if needed for specific scenarios):
+```bash
+# Skip build for faster validation during development
+Bash: npx tsx scripts/validate-code-quality.ts --skip-build
+
+# Skip tests if only checking types/linting
+Bash: npx tsx scripts/validate-code-quality.ts --skip-tests
+
+# Run in specific directory (for monorepo apps)
+Bash: npx tsx scripts/validate-code-quality.ts --cwd=apps/marketing
+```
+
+**CRITICAL**: Do NOT skip tests or build during phase validation - only use skip flags during development iteration.
 
 ---
 
-### Step 3: Run Automated Tests
+### Step 3: Frontend Validation (if applicable)
 
-**CRITICAL**: You MUST re-run ALL tests yourself. Do NOT trust task completion reports.
-
-**Common false positives to detect**:
-- Task claims "TypeScript compiles" but you find errors when running `npx tsc`
-- Task claims "5/5 tests passing" but you find 3/5 failing when running tests
-- Task claims "component renders" but tests reference non-existent selectors
-
-**Your job**: Run tests, count actual failures, report discrepancies.
-
-#### Unit Tests
-```bash
-# Run unit tests
-Bash: npm test
-
-# Read output line-by-line
-# Count actual passes vs. failures
-# Compare to task claims
-```
-
-**Expected**: All unit tests passing (0 failures)
-
-**If mismatch**: Report which tasks claimed passing but tests fail
-
-#### Integration Tests (if exist)
-```bash
-# Run integration tests
-Bash: npm test -- --run integration
-
-# Read actual output
-```
-
-**Expected**: All integration tests passing (0 failures)
-
-#### Frontend Features - Proactive Validation
-
-**If this phase includes any UI/frontend changes, you MUST run frontend-validation BEFORE E2E tests**:
+**If this phase includes any UI/frontend changes, you MUST run frontend-validation AFTER code quality checks pass**:
 
 1. **Invoke `frontend-validation` skill** (see `.claude/skills/frontend-validation/SKILL.md`):
    - Write validation script for the feature
@@ -131,21 +166,7 @@ Bash: npm test -- --run integration
 
 **Expected**: All E2E tests passing (0 failures)
 
-#### TypeScript Compilation
-```bash
-# Always run TypeScript check
-Bash: npx tsc --noEmit
-
-# Count actual errors (not just check exit code)
-```
-
-**Expected**: 0 TypeScript errors
-
-**Parse output for each test suite**:
-- How many tests ran?
-- How many passed/failed?
-- Which assertions failed?
-- Exit code (0 = success, non-zero = failure)
+**Note**: The validation script in Step 2 already runs unit tests. Frontend validation is for browser-based verification of UI components.
 
 #### Validation Script Pattern (Recommended)
 
