@@ -303,11 +303,10 @@ T004: Form validation → Dependencies: T003 ❌ (doesn't need T003!)
 Read: templates/feature-tasks.md
 
 # Fill sections:
-# - Summary (totals, duration, critical path)
+# - Summary (totals, critical path)
 # - Batches (execution order from Step 6)
 # - Phases (emergent from dependencies, Step 6.5)
-# - Task details (T001-T085 with acceptance criteria)
-# - Integration checkpoints (INT-01, INT-02, etc.)
+# - Task details (T001-T085 with acceptance criteria, cross-references)
 # - Progress tracking section (empty initially)
 
 # Write file

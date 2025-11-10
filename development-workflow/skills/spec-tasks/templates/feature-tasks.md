@@ -89,17 +89,14 @@ T001 → T002 → T006 → T012 → T021 → T022 ([N days])
 
 **Type**: Backend | Mutation | TDD Required
 **Agent**: tdd-executor (Sonnet)
-**Estimate**: 3-4 hours
 **Dependencies**: None
 **Priority**: High
 
-
-
 **Implements**: US-[N] (§AC[X], §AC[Y])
 
-**Plan References**: §[Section].[Subsection]
+**Plan References**: §[Section].[Subsection], §TD1.file-organization, §Data-Flow.[flow-name]
 
-**Knowledge Prerequisites**: [@skill §section], [Research topic if needed]
+**Knowledge Prerequisites**: [@skill §section], [Research topic from plan if needed]
 
 **Related Tasks**: T[XXX] (shares context), T[YYY] (same domain)
 
@@ -111,9 +108,22 @@ T001 → T002 → T006 → T012 → T021 → T022 ([N days])
 - [ ] TypeScript compiles with 0 errors
 
 **Files to Create/Modify** (per Plan §TD1):
-- `convex/__tests__/[module].test.ts`
-- `convex/mutations/[module].ts`
+- `convex/__tests__/[module].test.ts` - New file
+  - Tests: `test("[test description 1]")`, `test("[test description 2]")`
+- `convex/mutations/[module].ts` - New file
+  - Function: `functionName(ctx, { arg1, arg2 }): ReturnType` - [Brief description]
 
+**Integration Points**:
+- Follow [pattern type] from: `[file]:[line-range]` ([pattern description])
+- [Example: "Follow mutation auth pattern from: `convex/mutations/updateModel.ts:23-30` (admin role check)"]
+
+**Data Transformation**:
+- **Input**: `{ field1: type, field2: type }` - [From where, e.g., "from form validation"]
+- **Transform**: `functionName(input) → output` - [What calculation/transformation happens]
+- **Output**: `{ field1: type, field2: type }` - [To where, e.g., "persisted to table"]
+- **Validation**: [What validation rules apply, e.g., "Reject if field1 ≤ 0"]
+
+**Knowledge Prerequisites**: @convex-operations §mutation-patterns, @typescript-standards §validation
 **Expert Skills**: convex-expert (mutation patterns, testing)
 
 ---
@@ -122,17 +132,14 @@ T001 → T002 → T006 → T012 → T021 → T022 ([N days])
 
 **Type**: Backend | Query | TDD Required
 **Agent**: tdd-executor (Sonnet)
-**Estimate**: 2-3 hours
 **Dependencies**: T001 (needs schema from T001)
 **Priority**: High
 
-
-
 **Implements**: US-[N] (§AC[X])
 
-**Plan References**: §[Section].[Subsection]
+**Plan References**: §[Section].[Subsection], §TD1.file-organization
 
-**Knowledge Prerequisites**: [@skill §section], [Research topic if needed]
+**Knowledge Prerequisites**: [@skill §section], [Research topic from plan if needed]
 
 **Related Tasks**: T[XXX] (shares context), T[YYY] (same domain)
 
@@ -144,9 +151,22 @@ T001 → T002 → T006 → T012 → T021 → T022 ([N days])
 - [ ] Query p95 latency <100ms
 
 **Files to Create/Modify** (per Plan §TD1):
-- `convex/__tests__/[module].test.ts`
-- `convex/queries/[module].ts`
+- `convex/__tests__/[module].test.ts` - New file
+  - Tests: `test("[query test description]")`
+- `convex/queries/[module].ts` - New file
+  - Function: `functionName(ctx, { filterArg? }): ReturnType[]` - [Brief description]
 
+**Integration Points**:
+- Use index from schema: `convex/schema.ts:[line]` (index "[index_name]")
+- Follow query pattern from: `[file]:[line-range]` ([pattern description])
+
+**Data Transformation**:
+- **Input**: `{ filterField?: type }` - [From where, e.g., "from UI filter"]
+- **Query**: Fetch from `[table_name]` table with index `[index_name]`
+- **Transform**: `[mapping logic if needed]`
+- **Output**: `Array<{ field1: type, field2: type }>` - [To where, e.g., "to UI table"]
+
+**Knowledge Prerequisites**: @convex-operations §query-patterns, @typescript-standards
 **Expert Skills**: convex-expert (query patterns, indexes)
 
 ---
@@ -155,17 +175,14 @@ T001 → T002 → T006 → T012 → T021 → T022 ([N days])
 
 **Type**: Backend | Schema Update
 **Agent**: implementer (Haiku)
-**Estimate**: 1 hour
 **Dependencies**: None
 **Priority**: Medium
 
-
-
 **Implements**: US-[N] (§AC[X])
 
-**Plan References**: §[Section].[Subsection]
+**Plan References**: §[Section].[Subsection], §TD1.file-organization
 
-**Knowledge Prerequisites**: [@skill §section], [Research topic if needed]
+**Knowledge Prerequisites**: [@skill §section], [Research topic from plan if needed]
 
 **Related Tasks**: T[XXX] (shares context), T[YYY] (same domain)
 
@@ -176,7 +193,14 @@ T001 → T002 → T006 → T012 → T021 → T022 ([N days])
 - [ ] Schema validates (npx convex dev)
 
 **Files to Create/Modify** (per Plan §TD1):
-- `convex/schema.ts`
+- `convex/schema.ts` - Modify existing file
+  - Add table: `[table_name]` (at line [X], after `[existing_table]`)
+  - Fields: `field1: v.type()`, `field2: v.type()`
+  - Indexes: `.index("by_field1", ["field1"])`
+
+**Integration Points**:
+- Add after existing table at: `convex/schema.ts:[line]`
+- Follow defineTable pattern from: `convex/schema.ts:[existing-table-line-range]`
 
 **Expert Skills**: convex-expert (schema design)
 
@@ -196,14 +220,12 @@ T001 → T002 → T006 → T012 → T021 → T022 ([N days])
 
 **Type**: Frontend | Component | No TDD
 **Agent**: implementer (Haiku)
-**Estimate**: 2 hours
 **Dependencies**: T001 (needs data structure from T001)
 **Priority**: Medium
 
-
 **Implements**: US-[N] (§AC[X], §AC[Y])
-**Plan References**: §[Section].[Subsection]
-**Knowledge Prerequisites**: [@skill §section], [Research topic if needed]
+**Plan References**: §[Section].[Subsection], §TD1.file-organization
+**Knowledge Prerequisites**: [@skill §section], [Research topic from plan if needed]
 **Related Tasks**: T[XXX] (shares context), T[YYY] (same domain)
 
 **Acceptance Criteria**:
@@ -213,8 +235,19 @@ T001 → T002 → T006 → T012 → T021 → T022 ([N days])
 - [ ] Responsive design (mobile, tablet, desktop)
 - [ ] Accessible (keyboard navigation, ARIA labels)
 
-**Files to Create/Modify**:
-- `components/[ComponentName].tsx`
+**Files to Create/Modify** (per Plan §TD1):
+- `components/[category]/[ComponentName].tsx` - New file
+  - Component: `ComponentName({ prop1, prop2 }): JSX.Element` - [Brief description]
+  - Props: `{ prop1: type, prop2: type }`
+
+**Integration Points**:
+- Reuse shared component: `[component-file]:[line]` (e.g., DataTable, Button)
+- Follow component pattern from: `[file]:[line-range]` ([pattern description])
+
+**Data Transformation**:
+- **Input**: `{ prop1: type, prop2: type }` - [From where, e.g., "from parent page props"]
+- **Transform**: `[display logic if needed]`
+- **Output**: JSX elements displaying `[what user sees]`
 
 **Expert Skills**: nextjs-expert (component patterns)
 

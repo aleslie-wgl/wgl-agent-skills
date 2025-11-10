@@ -54,9 +54,9 @@ Read: docs/features/[FEAT-XXX]-tasks.md
 ```
 
 **Load Skills**
-Skill("<agent-dispatch-patterns>")
-Skill("<context-provision-patterns>")
-Skill("<validation-patterns>")
+Skill: @agent-dispatch-patterns:
+Skill: @context-provision-patterns
+Skill: @validation-patterns:
 
 
 **Create STATUS.md from template:**
@@ -130,14 +130,14 @@ for task in batch:
 Task 1: tdd-executor
   Task ID: T001
   Task: "Implement pricing calculation with TDD"
-  Context: [spec excerpt + plan excerpt + task acceptance criteria]
+  Context: [spec excerpt + plan excerpt + full task details including acceptance criteria, integration points, data transformation]
   Expert Skills: convex-expert
   Expected: Test file + implementation + completion report
 
 Task 2: implementer
   Task ID: T004
   Task: "Build PricingCard UI component"
-  Context: [spec excerpt + plan excerpt + task acceptance criteria]
+  Context: [spec excerpt + plan excerpt + full task details including acceptance criteria, integration points, data transformation]
   Expert Skills: nextjs-expert
   Expected: Component file + completion report
 

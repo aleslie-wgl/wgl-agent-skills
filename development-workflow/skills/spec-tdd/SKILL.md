@@ -56,6 +56,161 @@ Read: docs/features/FEAT-XXX-tasks.md     # Task list, dependencies, acceptance 
 
 ---
 
+### Step 0.5: Extract Integration Points and Data Transformation
+
+**NEW**: Tasks now include specific guidance for test implementation
+
+#### Integration Points
+
+Format in tasks.md:
+```markdown
+**Integration Points**:
+- Follow [pattern type] from: `[file]:[line-range]` ([description])
+- Example: "Follow test pattern from: `convex/__tests__/updateModel.test.ts:15-35` (mutation test with auth)"
+```
+
+**Action for TDD**:
+1. Read the referenced file:line to see existing test patterns
+2. Locate the exact test structure (lines X-Y)
+3. Copy the test pattern to your test file
+4. Adapt test names and assertions to match your domain
+
+**Example**:
+Integration Point: Follow mutation test from `convex/__tests__/updateModel.test.ts:15-35`
+→ Read updateModel.test.ts
+→ Copy lines 15-35 (test structure with convexTest setup, mutation call, assertions)
+→ Paste into your test file
+→ Change "updateModel" to "calculatePricing" (or whatever your function is)
+→ Adapt assertions to match your acceptance criteria
+
+**For Implementation Code**:
+Use Integration Points to copy production patterns:
+- Auth checks: Copy from referenced file:line in mutations
+- Data validation: Copy validator patterns from existing code
+- Error handling: Copy error throw patterns
+
+#### Data Transformation
+
+Format in tasks.md:
+```markdown
+**Data Transformation**:
+- **Input**: `{ field1: type, field2: type }` - [source]
+- **Transform**: `functionName(input) → output` - [what happens]
+- **Output**: `{ result1: type, result2: type }` - [destination]
+- **Validation**: [rules]
+```
+
+**Action for TDD**:
+
+**1. RED Phase (Write Failing Test)**:
+Use Data Transformation to write test fixtures and assertions:
+```typescript
+// Input spec → Test fixture
+const input = {
+  field1: value1,  // From Input spec
+  field2: value2   // From Input spec
+};
+
+// Output spec → Assertions
+expect(result.result1).toBe(expected1);  // From Output spec
+expect(result.result2).toBe(expected2);  // From Output spec
+```
+
+**2. GREEN Phase (Minimal Implementation)**:
+Use Data Transformation to write function signature and return type:
+```typescript
+// Input → Function parameters
+handler: async (ctx, args: { field1: type, field2: type }) => {
+
+  // Transform → Business logic placeholder
+  const result = someCalculation(args);
+
+  // Output → Return type
+  return { result1: type, result2: type };
+}
+```
+
+**3. REFACTOR Phase (Add Validation)**:
+Use Validation from Data Transformation to write edge case tests:
+```typescript
+// Validation rules → Error tests
+test("validates field1 is positive", async () => {
+  await expect(
+    t.mutation(api.mutations.myFunction, {
+      field1: -1,  // Invalid per Validation spec
+      field2: value2
+    })
+  ).rejects.toThrow("field1 must be positive");
+});
+```
+
+**Example: Complete TDD with Data Transformation**:
+
+Task has:
+```markdown
+**Data Transformation**:
+- **Input**: `{ base_cost: number, margin: number }` - User form submission
+- **Transform**: `calculatePricing(input) → { input_price, output_price }`
+- **Output**: `{ input_price: number, output_price: number }` - Displayed in UI
+- **Validation**: base_cost > 0, margin >= 0
+```
+
+RED Phase test using Input/Output:
+```typescript
+test("calculatePricing returns positive prices", async () => {
+  const result = await t.mutation(api.mutations.calculatePricing, {
+    base_cost: 10,    // From Input spec
+    margin: 0.6       // From Input spec
+  });
+
+  expect(result.input_price).toBeGreaterThan(0);   // From Output spec
+  expect(result.output_price).toBeGreaterThan(0);  // From Output spec
+});
+```
+
+GREEN Phase implementation using Transform:
+```typescript
+export const calculatePricing = mutation({
+  args: {
+    base_cost: v.number(),  // From Input spec
+    margin: v.number()      // From Input spec
+  },
+  handler: async (ctx, args) => {
+    // From Transform spec
+    const input_price = args.base_cost * (1 + args.margin);
+    const output_price = input_price * 2;
+
+    // From Output spec
+    return { input_price, output_price };
+  }
+});
+```
+
+REFACTOR Phase edge cases using Validation:
+```typescript
+// From Validation: base_cost > 0
+test("validates positive base cost", async () => {
+  await expect(
+    t.mutation(api.mutations.calculatePricing, {
+      base_cost: -10,  // Invalid
+      margin: 0.6
+    })
+  ).rejects.toThrow("Base cost must be positive");
+});
+
+// From Validation: margin >= 0
+test("validates non-negative margin", async () => {
+  await expect(
+    t.mutation(api.mutations.calculatePricing, {
+      base_cost: 10,
+      margin: -0.5  // Invalid
+    })
+  ).rejects.toThrow("Margin cannot be negative");
+});
+```
+
+---
+
 ### Step 1: RED Phase - Write Failing Test
 
 **Write test FIRST** - before any implementation code exists.

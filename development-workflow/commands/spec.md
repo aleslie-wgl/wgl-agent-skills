@@ -45,23 +45,26 @@
 
 **Process**:
 1. Read specification
-2. **Parallel research** (if RQs exist):
-   - Extract RQ1-RQN from spec
+2. **Parallel research + analysis**:
+   - Extract RQ1-RQN from spec (if exist)
    - Check if research exists (Grep knowledge/*.md)
-   - Dispatch all researchers in parallel:
+   - Determine if analyzer needed (3+ user stories, integration needs)
+   - Dispatch researchers + analyzer in parallel:
      ```
-     Task 1: spec-research → RQ1
-     Task 2: spec-research → RQ2
-     Task 3: spec-research → RQ3
+     Task 1: researcher (haiku) → RQ1
+     Task 2: researcher (haiku) → RQ2
+     Task 3: analyzer (haiku) → Search codebase for patterns (conditional)
      ```
    - Wait for all to complete (fan-in)
-   - Aggregate results
+   - Aggregate research findings + pattern analysis
 3. Design architecture (system components, diagram)
 4. Define database schema changes
 5. Define API contracts (TypeScript)
-6. Define testing strategy
-7. Document technical decisions
-8. Write plan file
+6. Document existing patterns to follow (from analyzer)
+7. Add data flow diagrams
+8. Define testing strategy
+9. Document technical decisions (TD1 includes integration points)
+10. Write plan file
 
 **Output**: docs/features/[FEAT-XXX]-plan.md
 
@@ -87,13 +90,18 @@
    - Classify task type (TDD vs. direct)
    - Assign agent (tdd-executor vs. implementer)
    - Define dependencies (minimal for parallelism)
-   - Write acceptance criteria
-   - Add file paths
-3. Add integration checkpoints (every 10 tasks)
-4. Group into parallel batches (dependency-ordered)
-5. Detect emergent phases (from dependency patterns)
-6. Calculate totals (count, estimates, critical path)
-7. Write tasks file
+   - Write acceptance criteria with file paths (per Plan §TD1)
+3. Add cross-references:
+   - Implements (links to user stories)
+   - Plan References (links to plan sections)
+   - Knowledge Prerequisites (skills and research)
+   - Related Tasks (shared context)
+4. Optimize for parallelism (minimize dependencies)
+5. Enforce phase sizing (max 15 tasks per phase)
+6. Group into parallel batches (dependency-ordered)
+7. Detect emergent phases (from dependency patterns)
+8. Calculate totals (count, critical path)
+9. Write tasks file
 
 **Output**: docs/features/[FEAT-XXX]-tasks.md
 

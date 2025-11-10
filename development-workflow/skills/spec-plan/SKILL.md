@@ -1,8 +1,8 @@
 ---
 name: spec-plan
-description: "[WORKFLOW] Create implementation plan with architecture, data models, testing strategy, and parallel research dispatch"
+description: "[WORKFLOW] Create implementation plan with architecture, data models, testing strategy, parallel research dispatch, and codebase pattern analysis"
 when_to_use: When creating a technical plan to address a specification
-version: 2.0.0
+version: 3.0.0
 type: workflow
 ---
 
@@ -36,50 +36,77 @@ Extract:
 
 ---
 
-### Step 2: Parallel Research Phase (If RQs Exist)
+### Step 2: Parallel Research + Analysis Phase
 
-**Extract open questions from spec:**
-```markdown
-RQ1: "HuggingFace API rate limits"
-RQ2: "GPU VRAM estimation formulas"
-RQ3: "Convex search performance at 10K+ records"
-```
+**Purpose**: Research open questions AND search codebase for existing patterns
 
-**Check if research already exists:**
+#### Step 2.1: Determine What to Dispatch
+
+**Check for Research Questions** (from spec):
 ```bash
-# For each RQ, check knowledge base
-Grep: knowledge/*.md --pattern "huggingface api rate"
-Grep: knowledge/*.md --pattern "gpu vram estimation"
-Grep: knowledge/*.md --pattern "convex search performance"
+# Extract RQs from spec
+Read: docs/features/[FEAT-XXX]-spec.md
+# Look for "## Open Questions" section with RQ1-RQN
+
+# Check if research already exists
+Grep: knowledge/*.md --pattern "[keyword from RQ]"
+
+# Collect RQs needing research
+research_queue = [RQ1, RQ2]  # RQ3 already exists
 ```
 
-**Collect RQs needing research:**
-```markdown
-# If grep found existing research → Use existing file
-# If grep found nothing → Add to research queue
+**Determine if Analyzer Needed**:
 
-research_queue = [RQ1, RQ2]  # RQ3 already researched
+Dispatch analyzer agent when:
+- ✅ Feature has 3+ user stories (likely substantial, 15+ tasks)
+- ✅ Spec mentions integration with existing features
+- ✅ Feature type likely has existing patterns (mutations, UI components, admin features)
+
+Skip analyzer when:
+- ❌ Feature is trivial (1-2 user stories, <5 tasks)
+- ❌ Feature is net-new functionality with no existing patterns
+- ❌ Codebase is very small (<50 files)
+
+**Example decision**:
+```markdown
+# Feature: Admin pricing interface with bulk updates
+# User stories: 5 (US-1 through US-5)
+# Existing patterns: Admin mutations, bulk updates, UI tables
+# Decision: ✅ Dispatch analyzer
 ```
 
-**Dispatch parallel researchers (fan-out):**
-```markdown
-# Single message with N Task calls
+#### Step 2.2: Dispatch Agents in Parallel (Fan-Out)
 
-Task 1: spec-research
+**Single message with multiple Task calls**:
+
+```markdown
+Task 1: researcher (haiku)
   Query: "HuggingFace API rate limits for model metadata"
   Save to: knowledge/huggingface-api-rate-limits-2025-01-15.md
+  Expected: Research summary with findings
 
-Task 2: spec-research
+Task 2: researcher (haiku)
   Query: "GPU VRAM estimation formulas for FP16 inference"
   Save to: knowledge/gpu-vram-estimation-2025-01-15.md
+  Expected: Research summary with findings
+
+Task 3: analyzer (haiku)
+  Feature keywords: ["pricing", "bulk update", "admin"]
+  Feature type: "backend mutation + admin UI"
+  Search scope: "thorough"
+  Spec excerpt: |
+    US-1: Admin updates model pricing
+    US-2: Admin performs bulk pricing updates
+    US-3: Admin views pricing history
+  Expected: Structured pattern analysis with file:line references
 
 # Wait for ALL to complete (fan-in)
-# Each returns: { query, summary, file, status }
 ```
 
-**Aggregate results:**
-```markdown
-# Store research references for plan
+#### Step 2.3: Aggregate Results
+
+**From researchers**:
+```typescript
 research_summary = [
   {
     question: "RQ1: HuggingFace API rate limits",
@@ -91,8 +118,63 @@ research_summary = [
     findings: ["Formula: params * 2 bytes (FP16)", "Add 20% overhead", "Batch size multiplier"],
     file: "knowledge/gpu-vram-estimation-2025-01-15.md"
   }
-]
+];
 ```
+
+**From analyzer** (if dispatched):
+```typescript
+pattern_analysis = {
+  patterns_found: [
+    {
+      pattern_type: "admin_mutation_auth",
+      description: "Admin role check before mutations",
+      example_location: "convex/mutations/updateModel.ts:23-30",
+      code_snippet: "const identity = await ctx.auth.getUserIdentity();\nif (identity.role !== 'admin') throw new Error('Unauthorized');",
+      usage_instruction: "Copy auth check pattern for pricing mutations"
+    }
+  ],
+  integration_points: [
+    {
+      file_location: "convex/schema.ts:45",
+      integration_type: "schema_addition",
+      instruction: "Add pricing_configs table after models table",
+      existing_pattern: "Follow defineTable pattern from lines 45-67"
+    }
+  ],
+  similar_implementations: [
+    {
+      file: "convex/mutations/bulkUpdateModels.ts:56-78",
+      description: "Bulk update with chunking",
+      relevance: "Apply same pattern for bulk pricing updates"
+    }
+  ],
+  anti_patterns: [
+    {
+      file: "lib/old-pricing/index.ts",
+      issue: "Deprecated pricing calculation - DO NOT USE",
+      reason: "Hard-coded values, no validation"
+    }
+  ],
+  recommendations: [
+    "Follow admin auth pattern from updateModel.ts:23",
+    "Reuse DataTable component for pricing table",
+    "Use chunking pattern from bulkUpdateModels.ts:56-78"
+  ]
+};
+```
+
+#### Step 2.4: Use Results in Planning Sections
+
+**Research findings** → Include in:
+- Performance Considerations (if RQ about scale/performance)
+- External API integration details (if RQ about third-party APIs)
+- Technical Decisions (research informs choices)
+
+**Pattern analysis** → Include in:
+- Technical Decisions §TD1 (file organization with integration points)
+- NEW: "Existing Patterns to Follow" section (after TD1)
+- API Contracts (reference similar function signatures)
+- Testing Strategy (follow existing test patterns)
 
 ---
 

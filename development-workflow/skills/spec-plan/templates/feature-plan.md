@@ -140,21 +140,100 @@ export const actionName = action({
 
 ## Technical Decisions
 
-### Decision 1: File Organization
+### Decision 1: File Organization (§TD1)
 
 **Context**: Where to place new files for this feature
 
-**Decision**:
-- **Pages**: `app/(marketing)/[route]/page.tsx` (for pages using marketing layout)
-- **Admin pages**: `app/(marketing)/admin/[route]/page.tsx` (shares nav/layout)
-- **API routes**: `app/api/[route]/route.ts`
-- **Components**: `components/marketing/` or `components/admin/` based on usage
-- **Business logic**: `lib/[feature-name]/core.ts` (library-first pattern)
-- **Convex (Database) functions**: `convex/mutations/[name].ts`, `convex/queries/[name].ts`, `convex/actions/[name].ts`
+**New Files to Create**:
+- `convex/mutations/[functionName].ts` - [Brief description]
+  - Function: `functionName(ctx, { arg1, arg2 }): ReturnType`
+- `convex/queries/[functionName].ts` - [Brief description]
+  - Function: `functionName(ctx, { arg1? }): ReturnType`
+- `lib/[feature-name]/core.ts` - Business logic
+  - Function: `calculateX(input): output` - [Description]
+  - Function: `validateY(input): boolean` - [Description]
+- `components/[category]/[ComponentName].tsx` - UI component
+  - Component: `ComponentName({ prop1, prop2 })`
+- `app/(marketing)/[route]/page.tsx` - Page component
+  - Page route: `/[route]`
+
+**Integration Points with Existing Code**:
+- `convex/schema.ts:[line]` - Add `[table_name]` table [after/before] `[existing_table]` table
+- `app/(marketing)/[path]/layout.tsx:[line]` - Add navigation link to /[new-route]
+- `[file]:[line]` - [Integration description]
+
+**Existing Patterns to Follow**:
+- [Pattern description]: See `[file]:[line-range]` for [pattern type]
+- [Example: "Admin mutation auth pattern: See `convex/mutations/updateModel.ts:23-30` for role check"]
 
 **Rationale**: Follows CLAUDE.md repository structure (see "Repository Structure" section)
 
 **Reference**: All task file paths will reference this section (e.g., "per Plan §TD1")
+
+---
+
+## Existing Patterns to Follow
+
+**Pattern Analysis Summary**: [Brief summary from analyzer agent, if dispatched]
+
+### Patterns Found
+
+**Pattern 1: [Pattern Type]**
+- **Location**: `[file]:[line-range]`
+- **Description**: [What this pattern does]
+- **Code Snippet**:
+  ```typescript
+  // 2-3 lines showing the pattern
+  ```
+- **Usage**: [How to apply this pattern in this feature]
+
+**Pattern 2: [Pattern Type]**
+- **Location**: `[file]:[line-range]`
+- **Description**: [What this pattern does]
+- **Usage**: [How to apply this pattern in this feature]
+
+### Similar Implementations
+
+**Similar Feature 1**: `[file]:[line-range]`
+- **Description**: [What this similar feature does]
+- **Relevance**: [Why this is relevant to our feature]
+- **Key Learnings**: [Lessons to apply from this implementation]
+
+### Anti-Patterns to Avoid
+
+**Deprecated Code**: `[file]`
+- **Issue**: [What's wrong with this code]
+- **Reason**: [Why it was deprecated]
+- **Alternative**: [What to use instead]
+
+### Recommendations
+
+- [Recommendation 1 from analyzer]
+- [Recommendation 2 from analyzer]
+- [Recommendation 3 from analyzer]
+
+*(Note: This section populated from analyzer agent output. Omit if analyzer not dispatched.)*
+
+---
+
+## Data Flow
+
+**User Action Flow**:
+```
+User Input (UI)
+  → [Validation step]
+  → [API call/mutation]
+  → [Backend processing]
+  → [Database operation]
+  → [Response]
+  → [UI update]
+```
+
+**Data Transformation**:
+- **Input**: `{ field1: type, field2: type }` - [From where]
+- **Transform**: `[functionName](input) → output` - [What transformation happens]
+- **Persist**: `[table_name]` table - [What gets saved]
+- **Output**: `{ field1: type, field2: type }` - [To where]
 
 ---
 
