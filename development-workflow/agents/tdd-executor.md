@@ -46,8 +46,8 @@ npx tsc --noEmit
 - Critical functionality (auth, payments, security)
 - Backend mutations, queries, actions
 
-**Loaded Skills**: @spec-tdd, @pre-completion-verification, @test-driven-development, @test-antipatterns, @typescript-standards
-
+**Core Skill**: @spec-tdd, 
+**Supporting Skill**: @pre-completion-verification, @test-antipatterns, @typescript-standards
 ---
 
 ## Input (Provided Inline by Orchestrator)
